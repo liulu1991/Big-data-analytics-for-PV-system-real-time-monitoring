@@ -1,0 +1,25 @@
+from sklearn.svm import SVR
+from sklearn import datasets
+import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn import metrics
+import numpy as np
+
+dataset = pd.read_csv('Folds5x2_pp.csv',sep=',')
+X = dataset[['AT','V','AP','RH']]
+y = dataset['PE']
+
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
+
+svr = SVR(kernel='rbf', C=1e3, gamma=0.1)
+svr.fit(X_train, y_train)
+y_pred= svr.predict(X_test)
+
+
+print ("MSE:", metrics.mean_squared_error(y_test, y_pred))
+print ("RMSE:", np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
+
+
+

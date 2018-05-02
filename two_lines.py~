@@ -1,0 +1,94 @@
+import sys
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+def production_temperature():
+    data = pd.DataFrame(pd.read_excel("test_data.xls"))
+    x=data.Time
+    y1=data.SolarProduction3
+    y2=data.Temp
+    plt.plot(x,y1,color='black',label='Solar Production(100W)')
+    plt.plot(x,y2,color='blue',label = 'temperature(ºC)')
+    plt.legend(loc='upper right')
+    plt.title('Temperature and Production')
+    plt.xlabel('Time')
+    plt.xticks(rotation='15',fontsize = 8)
+    plt.savefig("static/Temperature_Production.png")
+
+def production_wind():
+    data = pd.DataFrame(pd.read_excel("test_data.xls"))
+    x=data.Time
+    y1=data.SolarProduction3
+    y2=data.WindSpeed
+    plt.plot(x,y1,color='black',label='Solar Production(100W)')
+    plt.plot(x,y2,color='yellow',label='Wind speed (Km/h)')
+    plt.legend(loc='upper right')
+    plt.title('WindSpeed and Production')
+    plt.ylabel('Wind speed (Km/h)')
+    plt.xlabel('Time')
+    plt.xticks(rotation='15',fontsize = 8)
+    plt.savefig("static/WindSpeed_Production.png")
+ 
+
+def production_irradiation():
+    data = pd.DataFrame(pd.read_excel("test_data.xls"))
+    x=data.Time
+    y1=data.SolarProduction3
+    y2=data.Irridiation
+    plt.plot(x,y1,color='black',label='Solar Production(100W)')
+    plt.plot(x,y2,color='red',label='Irr_Wpm2_Avg(1)(W/m2)')
+    plt.legend(loc='upper right')
+    plt.title('Irridiation and Production')
+    plt.xlabel('Time')
+    plt.xticks(rotation='15',fontsize = 7)
+    plt.savefig("static/Irridiation_Production.png")
+
+def production_humidity():
+   data = pd.DataFrame(pd.read_excel("test_data.xls"))
+   x=data.Time
+   y1=data.SolarProduction3
+   y2=data.RelativeHumidity
+   plt.plot(x,y1,color='black',label='Solar Production(100W)')
+   plt.plot(x,y2,color='green',label='RelativeHumidity(%)')
+   plt.legend(loc='upper right')
+   plt.title('Relative Humidity and Production')
+   plt.xlabel('Time')
+   plt.xticks(rotation='15',fontsize = 7)
+   plt.savefig("static/RelativeHumidity_Production.png")
+
+def all_variables():
+   data = pd.DataFrame(pd.read_excel("test_data.xls"))
+   x=data.Time
+   y1=data.SolarProduction3
+   y2=data.Temp
+   y3=data.WindSpeed
+   y4=data.Irridiation
+   y5=data.RelativeHumidity
+   plt.plot(x,y1,color='black',label='Solar Production(100W)')
+   plt.plot(x,y2,color='blue',label = 'temperature(ºC)')
+   plt.plot(x,y3,color='yellow',label='Wind speed (Km/h)')
+   plt.plot(x,y4,color='red',label='Irr_Wpm2_Avg(1)(W/m2)')
+   plt.plot(x,y5,color='green',label='RelativeHumidity(%)')
+   plt.legend(loc='upper right',fontsize = 6)
+   plt.title('4 weather variables and production')
+   plt.xlabel('Time')
+   plt.xticks(rotation='15',fontsize = 7)
+   plt.savefig("static/4variables_Production.png")
+
+
+def choose_option ():
+   if sys.argv[1] == '0':
+      production_temperature()
+   elif sys.argv[1] == '1':  
+      production_wind()
+   elif sys.argv[1] == '2':
+      production_irradiation()
+   elif sys.argv[1] == '3':
+      production_humidity()
+   elif sys.argv[1] == '4':
+      all_variables()
+
+if __name__ == "__main__":
+    choose_option()
+

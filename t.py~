@@ -1,0 +1,4 @@
+import pandas as pd
+import numpy as np
+df = pd.read_csv('home/lulu/master_thesis/try1/2017pv.csv',sep=',')
+print  (df)

@@ -1,0 +1,81 @@
+import sys
+import pandas as pd
+import matplotlib.pyplot as plt
+
+   
+def production():
+   data = pd.DataFrame(pd.read_excel("test_data.xls"))
+   x=data.Time
+   y=data.SolarProduction
+   plt.plot(x,y,color='black',label='Solar Production(W)')
+   plt.ylabel('Solar Production(W)')
+   plt.xlabel('Time')
+   plt.legend(loc='upper right')
+   plt.title('Solar Production')
+   plt.xticks(rotation='15',fontsize = 8)
+   plt.savefig("static/Production.png")
+  
+def temperature():
+   data = pd.DataFrame(pd.read_excel("test_data.xls"))
+   x=data.Time
+   y=data.Temp
+   plt.plot(x,y,color='blue',label='temperature(ºC)')
+   plt.ylabel('Temperature(ºC)')
+   plt.xlabel('Time')
+   plt.legend(loc='upper right')
+   plt.title('Temperature')
+   plt.xticks(rotation='15',fontsize = 8)
+   plt.savefig("static/Temperature.png")
+   
+def wind():
+   data = pd.DataFrame(pd.read_excel("test_data.xls"))
+   x=data.Time
+   y=data.WindSpeed
+   plt.plot(x,y,color='yellow',label='Wind speed (Km/h)')
+   plt.ylabel('Wind speed (Km/h)')
+   plt.xlabel('Time')
+   plt.legend(loc='upper right')
+   plt.title('Wind Speed')
+   plt.xticks(rotation='15',fontsize = 8)
+   plt.savefig("static/WindSpeed.png")
+ 
+def irradiation():
+   data = pd.DataFrame(pd.read_excel("test_data.xls"))
+   x=data.Time
+   y=data.Irridiation
+   plt.plot(x,y,color='red',label='Irr_Wpm2_Avg(1)[W/m2]')
+   plt.ylabel('Irridiation(W/m2)')
+   plt.xlabel('Time')
+   plt.legend(loc='upper right')
+   plt.title('Irridiation')
+   plt.xticks(rotation='15',fontsize = 7)
+   plt.savefig("static/Irridiation.png")
+   
+def relative_humidity():
+   data = pd.DataFrame(pd.read_excel("test_data.xls"))
+   x=data.Time
+   y=data.RelativeHumidity
+   plt.plot(x,y,color='green',label='RelativeHumidity(%)')
+   plt.ylabel('RelativeHumidity(%)')
+   plt.xlabel('Time')
+   plt.legend(loc='upper right')
+   plt.title('Relative Humidity')
+   plt.xticks(rotation='15',fontsize = 7)
+   plt.savefig("static/RelativeHumidity.png")
+   #ax.xaxis.set_major_formatter(mdates.DateFormatter('%y/%m/%d %H:%S'))
+   #xlables = ax.get_xticklabels()
+   
+def choose_option ():
+   if sys.argv[1] == '0':
+      production()
+   elif sys.argv[1] == '1':  
+      temperature()
+   elif sys.argv[1] == '2':
+      wind()
+   elif sys.argv[1] == '3':
+      irradiation()
+   elif sys.argv[1] == '4':
+      relative_humidity()
+
+if __name__ == "__main__":
+    choose_option()

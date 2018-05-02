@@ -1,0 +1,14 @@
+import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+#dataset = np.loadtxt("test_data (for prediction).csv",delimiter=",")
+dataset = pd.read_csv('test_data.csv',sep=',')
+#x_data = dataset[:,0:4]
+#y_data = dataset[0:5]
+x_data = dataset[['Temp','RelativeHumidity']]
+y_data = dataset['SolarProduction3']
+print(dataset.shape)
+print(x_data.head())
+

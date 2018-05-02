@@ -1,0 +1,30 @@
+print(__doc__)
+
+import numpy as np
+from sklearn.svm import SVR
+import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.cross_validation import cross_val_score
+
+# #############################################################################
+# Generate sample data
+dataset = pd.read_csv('test_data.csv',sep=',')
+X = dataset[['AT','V','AP','RH']]
+y = dataset[['PE']]
+
+X_rain, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
+
+# #############################################################################
+
+
+# #############################################################################
+# Fit regression model
+svr = SVR(kernel='rbf', C=1e3, gamma=0.1)
+
+y_pred= svr.fit(X, y).predict(X)
+
+scores = cross_val_score(svr, X, y, cv=10, scoring='accuracy')
+
+print scores.mean()
+
+

@@ -1,0 +1,47 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.feature_selection import f_regression, mutual_info_regression
+from sklearn.preprocessing import StandardScaler
+
+dataset = pd.read_csv('weather_pv_2017_without_time.csv',sep=',')
+new_dataset = dataset.convert_objects(convert_numeric=True)
+print(new_dataset.dtypes)
+
+X = new_dataset[['WindSpeed','Sunshine','AirPressure','Radiation','AirTemperature','RelativeAirHumidity']]
+y = new_dataset['SystemProduction']
+
+f_test , _ = f_regression(X, y)
+f_test /= np.max(f_test)
+
+mi = mutual_info_regression(X, y)
+mi /= np.max(mi)
+
+print(f_test)
+print(mi)
+plt.figure(figsize=(30, 30))
+for i in range(6):
+    plt.subplot(2, 3, i + 1)
+    plt.subplots_adjust(hspace = 0.5)
+    plt.scatter(X.values[:, i], y, edgecolor='black', c='yellow', s=20)
+    plt.xlabel("$x_{}$".format(i + 1), fontsize=14)
+    if i == 0:
+        plt.ylabel("$y$", fontsize=14)
+        plt.xlabel("Windspeed", fontsize=14)
+    if i == 1:
+        plt.xlabel("Sunshine", fontsize=14)
+    if i == 2:
+        plt.xlabel("AirPressure", fontsize=14)
+    if i == 3:
+        plt.ylabel("$y$", fontsize=14)
+        plt.xlabel("Radiation", fontsize=14)
+    if i == 4:
+        plt.xlabel("AirTemperature", fontsize=14)
+    if i == 5:
+        plt.xlabel("RelativeAirHumidity", fontsize=14)
+    
+    plt.title("F-test={:.2f}, MI={:.2f}".format(f_test[i], mi[i]),
+              fontsize=14)
+plt.show()
+
+

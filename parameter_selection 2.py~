@@ -1,0 +1,49 @@
+from sklearn.svm import SVR
+from sklearn import datasets
+import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import GridSearchCV
+from sklearn import metrics
+import numpy as np
+from sklearn.preprocessing import StandardScaler
+
+dataset = pd.read_csv('weather_pv_2017_without_time.csv',sep=',')
+#dataset = pd.read_csv('weather_pv_2017dot.csv',sep=',', dtype={'WindSpeed':np.float64})   #not working
+new_dataset = dataset.convert_objects(convert_numeric=True)
+#pd.to_numeric(dataset['WindSpeed'],errors='ignore')         #not working
+print(new_dataset.dtypes)
+
+"""
+Standardization
+"""
+
+scaler = StandardScaler()
+print(scaler.fit(new_dataset))
+print(scaler.mean_)
+print(scaler.transform(new_dataset))
+
+
+X = new_dataset[['WindSpeed','Sunshine','Radiation','AirTemperature','RelativeAirHumidity']]
+y = new_dataset['SystemProduction']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.3, random_state=1)
+
+GridSearch = GridSearchCV(SVR(kernel='rbf'),
+                   param_grid={"C": [1e2,1e3,1e4],
+                               "gamma": [1e-5,1e-4,1e-3]}, scoring = 'explained_variance')
+#GridSearch = GridSearchCV(SVR(kernel='linear'),
+#                   param_grid={"C": [1e2,1e3,1e4]}, scoring = 'explained_variance')
+
+GridSearch.fit(X_train, y_train)
+
+best_parameters = GridSearch.best_params_
+print (GridSearch.best_params_, GridSearch.best_score_)
+
+svr2 = SVR(kernel='rbf', C = best_parameters['C'], gamma = best_parameters['gamma'])
+svr2.fit(X_train, y_train)
+
+y_pred= svr2.predict(X_test)
+
+print ("MSE:", metrics.mean_squared_error(y_test, y_pred))
+print ("EVS:", metrics.explained_variance_score(y_test, y_pred))
